@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+here<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -502,7 +502,7 @@
         const USERNAME = "a_t_i";
         const PRICE_TON = 4;
         const TON_USDT_RATE = 1.34;
-        const TIME_IN_DAYS = 0.2;
+        const TARGET_END_DATE = "2026-10-23T02:30:00Z";
         const BUY_URL = "https://fragment.com";
 
         const cleanUsername = USERNAME.replace(/^@/, '');
@@ -531,10 +531,13 @@
         const buyButton = document.getElementById('buy-action-btn');
         buyButton.href = BUY_URL;
 
-        let totalSeconds = Math.floor(TIME_IN_DAYS * 86400);
+        const targetTimestamp = new Date(TARGET_END_DATE).getTime();
 
         function updateCountdown() {
-            if (totalSeconds <= 0) {
+            const now = new Date().getTime();
+            const distance = targetTimestamp - now;
+
+            if (distance <= 0) {
                 document.getElementById('days-box').textContent = "0 days";
                 ['h1', 'h2', 'm1', 'm2', 's1', 's2'].forEach(id => {
                     document.getElementById(id).textContent = "0";
@@ -543,6 +546,7 @@
                 return;
             }
 
+            const totalSeconds = Math.floor(distance / 1000);
             const days = Math.floor(totalSeconds / 86400);
             const hours = String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, '0');
             const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
@@ -555,8 +559,6 @@
             document.getElementById('m2').textContent = minutes[1];
             document.getElementById('s1').textContent = seconds[0];
             document.getElementById('s2').textContent = seconds[1];
-
-            totalSeconds--;
         }
 
         updateCountdown();
