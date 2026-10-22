@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fragment</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-page: #10161f;
+            --bg-card: #18222d;
+            --bg-timer: #121922;
+            --text-main: #ffffff;
+            --text-secondary: #748397;
+            --accent-blue: #248bda;
+            --accent-green: #29b85c;
+            --font-family: 'Roboto', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: var(--font-family);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-main);
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 14px 16px;
+            background-color: var(--bg-page);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            font-weight: 700;
+            font-size: 19px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+
+        .header-logo {
+            width: 22px;
+            height: 22px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #18222d;
+            border-radius: 8px;
+            padding: 7px 10px;
+            gap: 6px;
+            width: 175px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .search-box svg {
+            width: 14px;
+            height: 14px;
+            fill: var(--text-secondary);
+            flex-shrink: 0;
+        }
+
+        .search-box input {
+            background: transparent;
+            border: none;
+            outline: none;
+            color: #fff;
+            font-size: 13.5px;
+            width: 100%;
+        }
+
+        .search-box input::placeholder {
+            color: #5d6e80;
+        }
+
+        .menu-btn {
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .menu-btn svg {
+            width: 22px;
+            height: 22px;
+            fill: #fff;
+        }
+
+        main {
+            flex: 1;
+            padding: 24px 16px 40px;
+            max-width: 520px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .title-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .main-username {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.2px;
+        }
+
+        .status-badge {
+            background: rgba(41, 184, 92, 0.15);
+            color: var(--accent-green);
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+
+        .price-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .price-label {
+            color: var(--text-secondary);
+            font-size: 13.5px;
+            margin-bottom: 12px;
+        }
+
+        .price-value {
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            margin-bottom: 14px;
+        }
+
+        .price-ton {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .gem-icon-blue {
+            width: 16px;
+            height: 16px;
+            fill: #2da5e0;
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .gem-icon-white {
+            width: 15px;
+            height: 15px;
+            fill: #ffffff;
+            display: inline-block;
+            vertical-align: middle;
+            flex-shrink: 0;
+        }
+
+        .price-usd {
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 400;
+        }
+
+        .price-subtext {
+            color: var(--text-secondary);
+            font-size: 12.5px;
+            line-height: 1.45;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 4px 16px;
+            margin-bottom: 24px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 13px 0;
+        }
+
+        .info-row:not(:last-child) {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .info-label {
+            color: #fff;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .info-val {
+            color: var(--accent-blue);
+            font-size: 14px;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        .countdown-wrap {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 18px;
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        .timer-boxes {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .timer-box {
+            background: var(--bg-timer);
+            padding: 5px 8px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            min-width: 26px;
+            text-align: center;
+        }
+
+        .timer-box.days {
+            padding: 5px 12px;
+        }
+
+        .digit-box {
+            background: var(--bg-timer);
+            padding: 5px 7px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #fff;
+            min-width: 20px;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .timer-sep {
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .buy-btn {
+            background-color: var(--accent-blue);
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 13px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            width: 100%;
+            margin-bottom: 18px;
+            transition: background-color 0.2s;
+        }
+
+        .buy-btn:hover {
+            background-color: #1f7bc2;
+        }
+
+        .subscribe-link {
+            display: block;
+            text-align: center;
+            color: var(--accent-blue);
+            font-size: 14px;
+            text-decoration: none;
+            margin-bottom: 36px;
+        }
+
+        .history-title {
+            font-size: 18px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .history-table {
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+            width: 100%;
+            font-size: 13.5px;
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 1.1fr 1.3fr 2.1fr;
+            padding: 12px 16px;
+            color: var(--text-secondary);
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 1.1fr 1.3fr 2.1fr;
+            padding: 14px 16px;
+            align-items: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .cell-price {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-weight: 600;
+        }
+
+        .cell-date {
+            color: var(--text-secondary);
+        }
+
+        .cell-buyer {
+            color: var(--accent-blue);
+            text-decoration: none;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+            padding: 24px 16px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img src="icon.png" alt="Logo" class="header-logo" onerror="this.style.display='none'">
+            <span id="store-title"></span>
+        </div>
+        <div class="header-right">
+            <div class="search-box">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="11" cy="11" r="7" stroke="#748397" stroke-width="2" fill="none"/>
+                    <line x1="16" y1="16" x2="21" y2="21" stroke="#748397" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+                <input type="text" placeholder="Search usernames" readonly>
+            </div>
+            <button class="menu-btn" aria-label="Menu">
+                <svg viewBox="0 0 24 24">
+                    <line x1="4" y1="7" x2="20" y2="7" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="4" y1="12" x2="20" y2="12" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="4" y1="17" x2="20" y2="17" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                </svg>
+            </button>
+        </div>
+    </header>
+
+    <main>
+        <div class="title-section">
+            <span class="main-username" id="display-domain"></span>
+            <span class="status-badge">For sale</span>
+        </div>
+
+        <div class="price-card">
+            <div class="price-label">Sell Price *</div>
+            <div class="price-value">
+                <span class="price-ton">
+                    <svg class="gem-icon-blue" viewBox="0 0 24 24">
+                        <polygon points="6,3 18,3 23,9 12,21 1,9" />
+                    </svg>
+                    <span id="display-price"></span>
+                </span>
+                <span class="price-usd" id="display-usd"></span>
+            </div>
+            <div class="price-subtext">* The owner of this asset is ready to sell it for this price without an auction.</div>
+        </div>
+
+        <div class="info-card">
+            <div class="info-row">
+                <span class="info-label">Telegram Username</span>
+                <a href="#" class="info-val" id="link-username"></a>
+            </div>
+            <div class="info-row">
+                <span class="info-label">Web Address</span>
+                <a href="#" class="info-val" id="link-web"></a>
+            </div>
+            <div class="info-row">
+                <span class="info-label">TON Web 3.0 Address</span>
+                <a href="#" class="info-val" id="link-ton-web"></a>
+            </div>
+        </div>
+
+        <div class="countdown-wrap">
+            <span>Ends in</span>
+            <div class="timer-boxes">
+                <span class="timer-box days" id="days-box">0 days</span>
+                <span class="timer-sep">:</span>
+                <span class="digit-box" id="h1">0</span>
+                <span class="digit-box" id="h2">0</span>
+                <span class="timer-sep">:</span>
+                <span class="digit-box" id="m1">0</span>
+                <span class="digit-box" id="m2">0</span>
+                <span class="timer-sep">:</span>
+                <span class="digit-box" id="s1">0</span>
+                <span class="digit-box" id="s2">0</span>
+            </div>
+        </div>
+
+        <a href="#" class="buy-btn" id="buy-action-btn">
+            <span>Buy for</span>
+            <svg class="gem-icon-white" viewBox="0 0 24 24">
+                <polygon points="6,3 18,3 23,9 12,21 1,9" />
+            </svg>
+            <span id="btn-price"></span>
+        </a>
+
+        <a href="#" class="subscribe-link">Subscribe to updates</a>
+
+        <div class="history-title">Ownership History</div>
+
+        <div class="history-table">
+            <div class="table-header">
+                <div>Sale price</div>
+                <div>Date</div>
+                <div>Buyer</div>
+            </div>
+            <div class="table-row">
+                <div class="cell-price">
+                    <svg class="gem-icon-blue" viewBox="0 0 24 24" style="width: 14px; height: 14px;">
+                        <polygon points="6,3 18,3 23,9 12,21 1,9" />
+                    </svg>
+                    <span>10</span>
+                </div>
+                <div class="cell-date">Sep 30 at 10:32</div>
+                <a href="#" class="cell-buyer">UQDPvfGUIC5t4...toXWwi0aZH1IBy</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <a href="#">Top Auctions</a>
+        <a href="#">About</a>
+        <a href="#">Terms</a>
+        <a href="#">Privacy</a>
+    </footer>
+
+    <script>
+        const STORE_NAME = "FRAGMENT";
+        const USERNAME = "a_t_i";
+        const PRICE_TON = 4;
+        const TON_USDT_RATE = 1.34;
+        const TIME_IN_DAYS = 0.2;
+        const BUY_URL = "https://fragment.com";
+
+        const cleanUsername = USERNAME.replace(/^@/, '');
+        const fullTonDomain = `${cleanUsername}.t.me`;
+
+        document.getElementById('store-title').textContent = STORE_NAME;
+        document.getElementById('display-domain').textContent = fullTonDomain;
+        document.getElementById('display-price').textContent = PRICE_TON;
+        document.getElementById('btn-price').textContent = PRICE_TON;
+
+        const calculatedUsd = (PRICE_TON * TON_USDT_RATE).toFixed(2);
+        document.getElementById('display-usd').textContent = `~ $${calculatedUsd}`;
+
+        const usernameLink = document.getElementById('link-username');
+        usernameLink.textContent = `@${cleanUsername}`;
+        usernameLink.href = `https://t.me/${cleanUsername}`;
+
+        const webLink = document.getElementById('link-web');
+        webLink.textContent = `t.me/${cleanUsername}`;
+        webLink.href = `https://t.me/${cleanUsername}`;
+
+        const tonWebLink = document.getElementById('link-ton-web');
+        tonWebLink.textContent = fullTonDomain;
+        tonWebLink.href = `https://${fullTonDomain}`;
+
+        const buyButton = document.getElementById('buy-action-btn');
+        buyButton.href = BUY_URL;
+
+        let totalSeconds = Math.floor(TIME_IN_DAYS * 86400);
+
+        function updateCountdown() {
+            if (totalSeconds <= 0) {
+                document.getElementById('days-box').textContent = "0 days";
+                ['h1', 'h2', 'm1', 'm2', 's1', 's2'].forEach(id => {
+                    document.getElementById(id).textContent = "0";
+                });
+                clearInterval(timerInterval);
+                return;
+            }
+
+            const days = Math.floor(totalSeconds / 86400);
+            const hours = String(Math.floor((totalSeconds % 86400) / 3600)).padStart(2, '0');
+            const minutes = String(Math.floor((totalSeconds % 3600) / 60)).padStart(2, '0');
+            const seconds = String(totalSeconds % 60).padStart(2, '0');
+
+            document.getElementById('days-box').textContent = `${days} days`;
+            document.getElementById('h1').textContent = hours[0];
+            document.getElementById('h2').textContent = hours[1];
+            document.getElementById('m1').textContent = minutes[0];
+            document.getElementById('m2').textContent = minutes[1];
+            document.getElementById('s1').textContent = seconds[0];
+            document.getElementById('s2').textContent = seconds[1];
+
+            totalSeconds--;
+        }
+
+        updateCountdown();
+        const timerInterval = setInterval(updateCountdown, 1000);
+    </script>
+</body>
+</html>
